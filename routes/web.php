@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,4 +21,24 @@ Route::get('/', function () {
     return view('posts.index', [
         'posts' => $posts
     ]);
+});
+
+Route::get('/create', function () {
+    $user = User::find(1);
+
+    $user->posts()->create([
+        'body' => 'Another post'
+    ]);
+});
+
+Route::get('/create/alt', function () {
+    $user = User::find(1);
+
+    $post = Post::make([
+        'body' => 'Manually created post'
+    ]);
+
+    $post->user()->associate($user);
+
+    $post->save();
 });
